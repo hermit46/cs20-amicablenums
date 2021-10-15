@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset = "utf-8">
+        <title>Amicable Numbers</title>
+        <link rel = "stylesheet" href="styles.css">
+        <div id = "content"></div>
+        <style> body {
+            background-image: url(alex-iby-cNgsAdd4-m4-unsplash.jpg);
+            background-color: rgba(255, 255, 255, 0.6);
+            background-blend-mode: lighten;
+            background-position: left 35% top 45%;
+        }
+        </style>
+    </head>
+
+<body>
+    <div class = "header">
+        Amicable Numbers Indeed!<p></p>
+    </div>
+    <form>
+        <div id = 'numbers' style="position:absolute; top:100px;">
+            <input type="text" class = "inputtext" id="num1" placeholder="First Number" /><p></p>
+            <input type="text" class = "inputtext" id="num2" placeholder="Second Number"/><p></p>
+            <input type ="button" value = 'Submit Numbers' onclick="findFactors()">
+            <div id = "process" onclick="isAmicable()"><p></p>
+        </div>
+    </form>
+
+    <script language = 'javascript'>
+        function findFactors() {
+            // PART 1: BREAKING DOWN THE NUMS INTO FACTORS
+            var firstNum, secondNum;
+            firstNum = document.getElementById('num1').value;
+            secondNum = document.getElementById('num2').value;
+            const nums = [firstNum, secondNum];   
+            const num1_factors = [], num2_factors = [];
+            const factors = [num1_factors, num2_factors];  
+            
+            // Logic for findFactors thanks to: https://www.w3resource.com/javascript-exercises/javascript-function-exercise-13.php
+            // Loop until sqrt of num (because aside from the num itself, factors will always never exceed the sqrt)
+            for (j = 0; j < nums.length; j++) {
+                for (i = 1; i <= Math.floor(Math.sqrt(nums[j])); i++) {
+                    // check if num is a factor of i
+                    if (nums[j] % i === 0) {
+                        factors[j].push(i);
+                        // check if num is a factor of num/i
+                        if (nums[j]/i !== i)
+                            factors[j].push(nums[j]/i);
+                    }
+                    //sort the num's factors numerically
+                    factors[j].sort(function(a,b) {
+                        return a-b;
+                    });
+                }
+            }
+            // Remove the last factor of each num, which is the num itself
+            // Mapping logic thanks to: https://stackoverflow.com/questions/60701670/how-to-remove-last-element-from-every-row-of-a-matrix-in-javascript
+            const factorsProcessed = factors.map((arr) => {
+                arr.pop();
+                return arr;
+            });
+
+            alert("The factors of " + firstNum + " are: " + factorsProcessed[0] +
+            " and the factors of " + secondNum + " are: " + factorsProcessed[1]);
+
+            isAmicable(factorsProcessed, firstNum, secondNum);
+
+        };
+
+        // PART 2: ADDING THE FACTORS
+        const sums = [];
+        function isAmicable(arr, firstNum, secondNum) {
+            //Reducer logic thanks to: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce
+            const reducer = (previousValue, currentValue) => previousValue + currentValue;
+            // Summing of factors
+            for (i = 0; i < arr.length; i++)
+                sums[i] = arr[i].reduce(reducer);
+            // Checking if the sum equals to one another (aka the check for amicability)
+            if (sums[0] == secondNum && sums[1] == firstNum)
+                document.getElementById("process").innerHTML = "The numbers: " + firstNum + " and " + secondNum + " are amicable."
+            else
+                document.getElementById("process").innerHTML = "The numbers: " + firstNum + " and " + secondNum + " are not amicable."
+        };
+    </script>
+
+    <p></p>Photo by <a href="https://unsplash.com/@alexiby?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Alex Iby</a> on <a href="https://unsplash.com/s/photos/boston?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+    
+</body>
+</html>

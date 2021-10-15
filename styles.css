@@ -1,0 +1,21 @@
+.inputtext {
+  border: 2px solid #ff0000;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 0 15px 4px rgba(0, 0, 0, 0.5);
+  transition: 0.3s border-color;
+}
+
+#num1:hover {
+  border: 2px solid #000000;
+}
+
+#num2:hover {
+  border: 2px solid #000000;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
